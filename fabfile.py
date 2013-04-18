@@ -13,5 +13,6 @@ Just experimenting for now.
 from braid import base
 from braid import config
 
+from services import buildslave
 
-__all__ = ['base', 'config']
+__all__ = ['base', 'buildslave', 'config']
