@@ -2,8 +2,11 @@ from fabric.api import sudo
 
 from braid.info import distroFamily
 
-def install(package):
+def install(packages):
+    """
+    Install a list of packages.
+    """
     if distroFamily() == 'debian':
-        sudo('apt-get --yes --quiet install {}'.format(package))
+        sudo('apt-get --yes --quiet install {}'.format(" ".join(packages)))
     else:
-        sudo('yum install -y {}'.format(package))
+        sudo('yum install -y {}'.format(" ".join(packages)))
