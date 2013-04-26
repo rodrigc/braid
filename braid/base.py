@@ -4,7 +4,7 @@ from fabric.api import sudo, task, put
 
 from twisted.python.filepath import FilePath
 
-from braid import pypy, service, authbind, git
+from braid import pypy, service, authbind, git, package, bazaar
 
 
 @task
@@ -17,9 +17,13 @@ def bootstrap():
     # Each service specific system user shall be added to the 'service' group
     sudo('groupadd -f --system service')
 
+    # gcc is needed for 'pip install'
+    package.install('gcc')
+    package.install('python-pip')
     pypy.install()
     authbind.install()
     git.install()
+    bazaar.install()
 
     sshConfig()
 
