@@ -29,7 +29,7 @@ class Service(object):
         self.serviceName = serviceName
         self.serviceUser = serviceName
 
-    def bootstrap(self, python='pypy'):
+    def bootstrap(self):
         # Create the user only if it does not already exist
         if fails('id {}'.format(self.serviceUser)):
             if not hasSudoCapabilities():

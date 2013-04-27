@@ -1,9 +1,12 @@
-from fabric.api import run
+from fabric.api import run, env
 
 from braid import info
 
 
-def install(package, python='pypy'):
+def install(package, python=None):
+    if python is None:
+        python = env.get('python', 'pypy')
+
     pip = 'pip'
     if python == 'pypy':
         pip = '~pypy/bin/pip'
