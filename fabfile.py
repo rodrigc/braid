@@ -26,3 +26,25 @@ for service in p.children():
             del module.config
         globals()[service.basename()] = module
         __all__.append(service.basename())
+
+
+from fabric.api import local, lcd, task
+from twisted.python.util import sibpath
+services = {
+    'buildbot': 'https://github.com/twisted-infra/twisted-buildbot-configuration',
+    'diffresource': 'https://github.com/twisted-infra/diffresource',
+    'hiscore': 'http://twistedmatrix.com/~tomprince/hiscore',
+    'kenaan': 'https://github.com/twisted-infra/kenaan',
+    't-names': 'https://github.com/twisted-infra/t-names',
+    'trac-config': 'https://github.com/twisted-infra/trac-config',
+    'twisted-website': 'https://code.launchpad.net/~tom.prince/twisted-website/twisted-website-braided',
+    }
+@task
+def cloneService():
+    with lcd(sibpath(__file__, 'services')):
+        for service, url in services.iteritems():
+            if 'github' in url:
+                local('git clone {} {}'.format(url, service))
+            else:
+                local('bzr branch {} {}'.format(url, service))
+__all__ += ['cloneService']
