@@ -6,7 +6,7 @@ import imp
 
 from twisted.python.filepath import FilePath
 
-from fabric.api import env, sudo, run, quiet, get, put, hide
+from fabric.api import env, sudo as sudo, run, quiet, get, put, hide
 from fabric.contrib import console
 
 
@@ -20,14 +20,6 @@ def fails(cmd, useSudo=False):
     return not succeeds(cmd, useSudo)
 
 
-def hasSudoCapabilities():
-    env.setdefault('canRoot', {})
-    if env.canRoot.get(env.host_string) is None:
-        with quiet():
-            env.canRoot[env.host_string] = run('/usr/bin/sudo -n '
-                                               '/usr/bin/whoami').succeeded
-    return env.canRoot[env.host_string]
-
 
 def cacheInEnvironment(f):
     """
@@ -37,12 +29,24 @@ def cacheInEnvironment(f):
     """
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
-        result = env.get(f.__name__)
+        env.setdefault(f.__name__, {})
+        result = env[f.__name__].get(env.host_string)
         if result is None:
             result = f(*args, **kwargs)
-            env[f.__name__] = result
+            env[f.__name__][env.host_string] = result
         return result
     return wrapper
+
+
+
+@cacheInEnvironment
+def hasSudoCapabilities():
+    env.setdefault('canRoot', {})
+    if env.canRoot.get(env.host_string) is None:
+        with quiet():
+            env.canRoot[env.host_string] = run('/usr/bin/sudo -n '
+                                               '/usr/bin/whoami').succeeded
+    return env.canRoot[env.host_string]
 
 
 
