@@ -1,0 +1,31 @@
+boot EC2 instance w/ ami-a73264ce
+on the instance
+    - sudo apt-get update
+      (https://github.com/twisted-infra/braid/issues/48)
+    - make sure setuptools >= 0.8 is installed on CPython
+      (https://github.com/twisted-infra/braid/issues/49)
+
+ensure you have a key that allows ssh access to a user with sudo-to-root ability and to root itself on the host
+(https://github.com/twisted-infra/braid/issues/50)
+
+on your local machine:
+    - initialize your braid virtualenv
+    - $ fab -i ${key} -u ${someuser} -H ${ip} -k base.bootstrap
+
+on the instance
+    - make sure setuptools >= 0.8 is installed on PyPy
+      (https://github.com/twisted-infra/braid/issues/49)
+
+on your local machine:
+    - $ fab -i ${key} -u ${someuser} -H ${ip} -k t-web.install
+    - $ fab -i ${key} -u ${someuser} -H ${ip} -k t-web.start
+      (this will fail, https://github.com/twisted-infra/braid/issues/51, edit _real_twisted-web first to work-around)
+
+    - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.install
+    - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.start
+
+on the instance
+    - touch ~trac/config/htpasswd
+      (https://github.com/twisted-infra/braid/issues/53)
+    - get a trac database from somewhere
+      (https://github.com/twisted-infra/braid/issues/54)
