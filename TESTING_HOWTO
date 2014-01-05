@@ -30,7 +30,6 @@ on your local machine:
        consider editing _real_twisted-web to work-around if you have a problem)
 
     - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.install
-    - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.start
 
 on the instance, as the trac user, in ~trac:
     - touch ~trac/config/htpasswd
@@ -40,3 +39,7 @@ on the instance, as the trac user, in ~trac:
       eg `ssh trac@twistedmatrix.com pg_dump | psql´
     - get the svn repo from somewhere
       eg `rsync -azP trac@twistedmatrix.com:svn/ svn/´
+    - change trac's hostname in ~trac/config/external.py from twistedmatrix.com to the public ip of the node
+
+on your local machine:
+    - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.start
