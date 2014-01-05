@@ -18,6 +18,11 @@ on the instance
 
 on your local machine:
     - $ fab -i ${key} -u ${someuser} -H ${ip} -k t-web.install
+
+on the instance
+    - checkout the `fixes` branch of t-web in ~t-web/config
+
+on your local machine:
     - $ fab -i ${key} -u ${someuser} -H ${ip} -k t-web.start
       (this will fail, https://github.com/twisted-infra/braid/issues/51, edit _real_twisted-web first to work-around)
 
