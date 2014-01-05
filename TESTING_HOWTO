@@ -32,9 +32,11 @@ on your local machine:
     - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.install
     - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.start
 
-on the instance
+on the instance, as the trac user, in ~trac:
     - touch ~trac/config/htpasswd
       (https://github.com/twisted-infra/braid/issues/53)
     - get a trac database from somewhere
       (https://github.com/twisted-infra/braid/issues/54)
       eg `ssh trac@twistedmatrix.com pg_dump | psql´
+    - get the svn repo from somewhere
+      eg `rsync -azP trac@twistedmatrix.com:svn/ svn/´
