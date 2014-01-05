@@ -21,10 +21,13 @@ on your local machine:
 
 on the instance
     - checkout the `fixes` branch of t-web in ~t-web/config
+    - edit the HOSTNAME in ~t-web/config/twisted-web/twisted-web and make it the public ip of the node
 
 on your local machine:
     - $ fab -i ${key} -u ${someuser} -H ${ip} -k t-web.start
-      (this will fail, https://github.com/twisted-infra/braid/issues/51, edit _real_twisted-web first to work-around)
+      (this might fail, depends how well you got pypy/setuptools working together,
+       see https://github.com/twisted-infra/braid/issues/51,
+       consider editing _real_twisted-web to work-around if you have a problem)
 
     - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.install
     - $ fab -i ${key} -u ${someuser} -H ${ip} -k trac.start
@@ -34,3 +37,4 @@ on the instance
       (https://github.com/twisted-infra/braid/issues/53)
     - get a trac database from somewhere
       (https://github.com/twisted-infra/braid/issues/54)
+      eg `ssh trac@twistedmatrix.com pg_dump | psql´
